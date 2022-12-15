@@ -1,14 +1,17 @@
 package io.github.runjief.handshakecache;
 
+import io.github.runjief.handshakecache.packet.HandshakeCacheChannel;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Objects;
 
 @Mod(HandshakeCacheMod.MODID)
 public class HandshakeCacheMod {
@@ -24,9 +27,7 @@ public class HandshakeCacheMod {
                 () -> NetworkConstants.IGNORESERVERONLY,
                 (a, b) -> true
             ));
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
+        Objects.requireNonNull(HandshakeCacheChannel.channel(), "channel");
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> HandshakeCacheConfig::register);
     }
 }

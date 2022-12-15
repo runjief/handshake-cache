@@ -1,6 +1,6 @@
-package io.github.runjief.handshakecache.packet;
+package io.github.runjief.handshakecache.packet.login;
 
-import io.github.runjief.handshakecache.client.ClientHandler;
+import io.github.runjief.handshakecache.packet.ClientHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 

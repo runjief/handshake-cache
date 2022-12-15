@@ -1,4 +1,4 @@
-package io.github.runjief.handshakecache.packet;
+package io.github.runjief.handshakecache.packet.login;
 
 import java.util.function.IntSupplier;
 

@@ -1,5 +1,6 @@
-package io.github.runjief.handshakecache.packet;
+package io.github.runjief.handshakecache.packet.login;
 
+import io.github.runjief.handshakecache.packet.ClientHandler;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -19,15 +20,17 @@ public class S2CHandshakeCacheLoginWrapper extends HandshakeCacheLoginPacket {
 
     public void encode(FriendlyByteBuf buf) {
         buf.writeResourceLocation(channel);
+        buf.writeVarInt(data.readableBytes());
         buf.writeBytes(data);
     }
 
     public static S2CHandshakeCacheLoginWrapper decode(FriendlyByteBuf buf) {
-        return new S2CHandshakeCacheLoginWrapper(buf.readResourceLocation(), buf);
+        var channel = buf.readResourceLocation();
+        var len = buf.readVarInt();
+        return new S2CHandshakeCacheLoginWrapper(channel, buf.readSlice(len));
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> ctx) {
-
-        return false;
+        return ClientHandler.handleLoginPacket(ctx.get(), channel, data, getLoginIndex());
     }
 }
