@@ -7,6 +7,8 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +29,9 @@ public class HandshakeCacheMod {
                 () -> NetworkConstants.IGNORESERVERONLY,
                 (a, b) -> true
             ));
-        Objects.requireNonNull(HandshakeCacheChannel.channel(), "channel");
+        FMLJavaModLoadingContext.get().getModEventBus().addListener((FMLCommonSetupEvent event) -> {
+            Objects.requireNonNull(HandshakeCacheChannel.channel(), "channel");
+        });
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> HandshakeCacheConfig::register);
     }
 }
