@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'io.github.runjief'
-version = '1.0.2'
+version = '1.0.3'
 
 java {
     archivesBaseName = 'handshake-cache'
